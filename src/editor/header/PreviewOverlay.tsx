@@ -48,9 +48,10 @@ import Button from '@/design-system/Button';
  *  silently drop messages whenever the iframe ends up at a different port,
  *  which is exactly the bug we're fixing). */
 const PREVIEW_ORIGIN =
-  typeof window !== 'undefined'
+  import.meta.env.VITE_PREVIEW_HOST ||
+  (typeof window !== 'undefined'
     ? `${window.location.protocol}//${window.location.hostname}:5175`
-    : 'http://localhost:5175';
+    : 'http://localhost:5175');
 /** Target-origin used in `iframe.contentWindow.postMessage(..., …)`.
  *  `'*'` works regardless of where the iframe ends up (5175, 3333, or any
  *  future port). The incoming filter is also relaxed below so messages from

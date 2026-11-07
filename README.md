@@ -81,6 +81,26 @@ Then open **http://localhost:3333**.
 Your work saves to `localStorage` automatically in local mode. No account, no backend, no
 network required.
 
+### Self-host with Docker Compose
+
+The included [`compose.yaml`](./compose.yaml) builds and serves the editor and both sandboxes.
+By default it binds their ports to `127.0.0.1` on the host; put them behind a trusted reverse
+proxy or Cloudflare Tunnel rather than exposing the ports directly.
+
+The default origins are `builder.giobadillo.dev`, `builder-canvas.giobadillo.dev`, and
+`builder-preview.giobadillo.dev`. Configure your tunnel to forward those hostnames to
+`http://localhost:3333`, `http://localhost:5174`, and `http://localhost:5175`, respectively.
+Override the sandbox URLs at build time with `VITE_SANDBOX_URL` and `VITE_PREVIEW_HOST` if you
+use different hostnames. Then deploy with:
+
+```bash
+docker compose -f compose.yaml up -d --build
+```
+
+Self-hosting the editor does not add server-side project storage: projects remain in the
+browser's `localStorage` unless you connect a compatible backend. The editor and sandbox
+origins should be protected consistently by your access policy.
+
 ### Optional configuration
 
 Everything is optional - see [`.env.example`](./.env.example) for the annotated list.
